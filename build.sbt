@@ -1,5 +1,3 @@
-import sbt.Resolver.bintrayRepo
-
 name := "akka-http-messing-about"
 
 version := "0.0.1"
@@ -10,6 +8,7 @@ libraryDependencies ++= List(
   Library.akkaActor,
   Library.akkaHttp,
   Library.akkaStream,
+  Library.scalaXml,
   Library.mockitoAll % "test",
   Library.scalaTest % "test",
   Library.akkaTestkit % "test"
