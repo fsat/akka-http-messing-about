@@ -15,7 +15,7 @@ class SimpleStreamSpec extends FunSpec with TestBase with ScalaFutures {
       it("can be mapped over and poured into a Sink") {
         val result = source
           .map(multipleByTwo)
-          .runWith(Sink.fold(0) { _ + _})
+          .runWith(Sink.fold(0) { _ + _ })
 
         result.futureValue shouldBe 420
       }
@@ -25,7 +25,7 @@ class SimpleStreamSpec extends FunSpec with TestBase with ScalaFutures {
           .mapAsync(parallelism = 3) { value =>
             Future.successful(multipleByTwo(value))
           }
-          .runWith(Sink.fold(0) { _ + _})
+          .runWith(Sink.fold(0) { _ + _ })
 
         result.futureValue shouldBe 420
       }
@@ -36,7 +36,7 @@ class SimpleStreamSpec extends FunSpec with TestBase with ScalaFutures {
         _.mapAsync(parallelism = 3) { value =>
           Future.successful(multipleByTwo(value))
         }
-        .toMat(Sink.fold(0) { _ + _})(Keep.right)
+        .toMat(Sink.fold(0) { _ + _ })(Keep.right)
 
       processingPipeline(source).run().futureValue shouldBe 420
     }
