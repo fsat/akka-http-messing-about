@@ -23,5 +23,9 @@ object HtmlProcessingPipeline {
     _.map(buildHttpRequest)
       .mapAsyncUnordered(parallelism)(httpExchange)
       .mapAsyncUnordered(parallelism)(response => Unmarshal(response.entity).to[String])
+      .filter(isNotBlank)
       .mapAsyncUnordered(parallelism) { content => Future(scraper(content)) }
+
+  private def isNotBlank(input: String): Boolean =
+    Option(input).exists(_.trim.length > 0)
 }
