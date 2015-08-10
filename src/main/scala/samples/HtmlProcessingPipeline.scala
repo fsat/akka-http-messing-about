@@ -23,5 +23,5 @@ object HtmlProcessingPipeline {
     _.map(buildHttpRequest)
       .mapAsyncUnordered(parallelism)(httpExchange)
       .mapAsyncUnordered(parallelism)(response => Unmarshal(response.entity).to[String])
-      .mapAsyncUnordered(parallelism) { content => Future.successful(scraper(content)) }
+      .mapAsyncUnordered(parallelism) { content => Future(scraper(content)) }
 }
