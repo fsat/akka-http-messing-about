@@ -1,19 +1,22 @@
 package samples
 
-import scala.xml.{Elem, XML}
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 
 object HtmlScraper {
-  case class TitleTag(title: String)
+  trait ScrapedContent
 
-  private val parseDom: String => Elem = XML.loadString
-  private val extractTitleTag: Elem => Option[TitleTag] =
-    Option(_)
-      .map(_ \ "head" \ "title")
-      .map(_.text)
-      .filterNot(_.isEmpty)
+  type HtmlScraper[T <: ScrapedContent] = String => Option[T]
+
+  case class TitleTag(title: String) extends ScrapedContent
+
+  private val parseDom: String => Document = Jsoup.parse
+  private val extractTitleTag: Document => Option[TitleTag] = input =>
+    Option(input.select("title").first())
+      .map(_.text())
       .map(TitleTag)
 
-  val naiveScraper: String => Option[TitleTag] =
+  val naiveScraper: HtmlScraper[TitleTag] =
     parseDom andThen
     extractTitleTag
 }

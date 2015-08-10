@@ -8,7 +8,7 @@ libraryDependencies ++= List(
   Library.akkaActor,
   Library.akkaHttp,
   Library.akkaStream,
-  Library.scalaXml,
+  Library.jsoup,
   Library.mockitoAll % "test",
   Library.scalaTest % "test",
   Library.akkaTestkit % "test"
